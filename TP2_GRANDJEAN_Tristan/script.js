@@ -1,56 +1,62 @@
 // Exercice 1 : menu burger
-const boutonMenu = document.querySelector('.menu-btn');
+
+// 1. Sélectionner les éléments
+const bouton = document.querySelector('.menu-btn');
 const menu = document.querySelector('.menu');
 
-boutonMenu.addEventListener('click', () => {
+// 2. Écouter le clic
+bouton.addEventListener('click', () => {
+  // 3. Toggle la classe
   menu.classList.toggle('is-open');
 
-  const estOuvert = menu.classList.contains('is-open');
-  boutonMenu.setAttribute('aria-expanded', estOuvert);
+  const isOpen = menu.classList.contains('is-open');
+  bouton.setAttribute('aria-expanded', isOpen);
 });
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && menu.classList.contains('is-open')) {
     menu.classList.remove('is-open');
-    boutonMenu.setAttribute('aria-expanded', 'false');
-    boutonMenu.focus();
+    bouton.focus(); // remettre le focus sur le bouton
   }
 });
 
 
 // Exercice 2 : modale
-const boutonOuvrir = document.querySelector('.modal-open');
-const boutonFermer = document.querySelector('.modal-close');
-const modale = document.querySelector('.modal');
+
+const btnOpen = document.querySelector('.modal-open');
+const btnClose = document.querySelector('.modal-close');
+const modal = document.querySelector('.modal');
 
 function ouvrirModale() {
-  modale.classList.add('is-visible');
-  modale.setAttribute('aria-hidden', 'false');
+  modal.classList.add('is-visible');
+  modal.setAttribute('aria-hidden', 'false');
 }
 
 function fermerModale() {
-  modale.classList.remove('is-visible');
-  modale.setAttribute('aria-hidden', 'true');
-  boutonOuvrir.focus();
+  modal.classList.remove('is-visible');
+  modal.setAttribute('aria-hidden', 'true');
+  btnOpen.focus();
 }
 
-boutonOuvrir.addEventListener('click', ouvrirModale);
-boutonFermer.addEventListener('click', fermerModale);
+btnOpen.addEventListener('click', ouvrirModale);
+btnClose.addEventListener('click', fermerModale);
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && modale.classList.contains('is-visible')) {
+  if (event.key === 'Escape' && modal.classList.contains('is-visible')) {
     fermerModale();
   }
 });
 
-modale.addEventListener('click', (event) => {
-  if (event.target === modale) {
+modal.addEventListener('click', (event) => {
+  // Si le clic est sur le fond (la modale elle-même), pas sur son contenu
+  if (event.target === modal) {
     fermerModale();
   }
 });
 
 
 // Exercice 3 : accordéon
+
 const questions = document.querySelectorAll('.faq-question');
 
 questions.forEach((question) => {
@@ -58,10 +64,12 @@ questions.forEach((question) => {
     const reponse = question.nextElementSibling;
     const estDejaOuverte = reponse.classList.contains('is-visible');
 
+    // Fermer toutes les réponses
     document.querySelectorAll('.faq-answer').forEach((r) => {
       r.classList.remove('is-visible');
     });
 
+    // Si elle n'était pas ouverte, l'ouvrir
     if (!estDejaOuverte) {
       reponse.classList.add('is-visible');
     }
@@ -69,7 +77,8 @@ questions.forEach((question) => {
 });
 
 
-// Exercice 4 : thème sombre
+// Exercice 4 (bonus) — thème sombre
+
 const btnTheme = document.querySelector('#theme-toggle');
 
 btnTheme.addEventListener('click', () => {
